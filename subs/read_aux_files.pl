@@ -26,7 +26,7 @@ my $journalsfile=$journals_File;
 
 #if ( (stat($journalsfile))[9] > $aux_files{$journalsfile}){
 if (1>0){    #for forcing to make new sub file (testing only) 
-    open (IN, "< $journalsfile") || error_b("[Error 140] Cannot open $journalsfile $!");
+    open IN, "<", $journalsfile || error_b("[Error 140] Cannot open $journalsfile $!");
     #log_p('New journals file found. Making new journals databases.');
     #empty the hashes
     %journals=();
@@ -36,9 +36,6 @@ if (1>0){    #for forcing to make new sub file (testing only)
     %journals_pagination=();
     while (<IN>){
         chomp;
-        #convert characters
-        $_=l12cb($_);
-        
         
         my @parts=split(/\t/,$_);
         unless($parts[1]=~/^no\sprint/i || $parts[1]=~/^duplicate/i){
@@ -49,6 +46,8 @@ if (1>0){    #for forcing to make new sub file (testing only)
             unless ($parts[5] eq '') {$journals_pagination{$parts[0]}=$parts[5]}
             
         }
+        
+       
     }
     close IN;    
     $aux_files{$journalsfile}=(stat($journalsfile))[9];
@@ -72,9 +71,9 @@ my %subject_index_hash;
 
 #if ( (stat($subjectsfile))[9] > $aux_files{$subjectsfile}){
 #if (1>0){    #for forcing to make new sub file 
-
-#unless($fmw eq 'one'){   #so that will only do this when more than one record are moosed
-    open (IN, "< $subjectsfile") || error_b("[Error 141] Cannot open $subjectsfile $!");
+print "fmw $fmw\n";
+unless($fmw eq 'one'){   #so that will only do this when more than one record are moosed
+    open IN, "<:utf8", $subjectsfile || error_b("[Error 141] Cannot open $subjectsfile $!");
     #log_p('New subjects file found. Making new subjects databases. This may take few minutes.');
     log_p('Reading thesaurus files');
     %subjects=();
@@ -83,22 +82,42 @@ my %subject_index_hash;
     %subjects_type=();
     while (<IN>){
         chomp;
-        my @parts=split(/\t/,$_);  # number /t subject /t subject type
+        #the expected order is 
+        #ThesaurusID  \t Subject \t TypeOfTerm \t TypeSortOrder \t ScopeNote \t ClassificationCode
+        my @parts=split(/\t/,$_);  
         #take care of encoding
-        $parts[1]=l12cb($parts[1]);
         sqeez($parts[0]);
         sqeez($parts[1]);
         
         $subjects{$parts[0]}="$parts[1]";        
-        $subjects_type{$parts[0]}="$parts[2]";   
-                
+        $subjects_type{$parts[0]}="$parts[2]"; 
+        $eacClassificationCode{$parts[5]}=$parts[0];
+        
         #make a reverse hash, but first check for duplicates
         #the keys will be in lower case
-        #if ($reverse_subjects_hash{lc($parts[1])}) {
-        #    warning_q("[Warning 142] While making subjects found: $parts[0] $parts[1] :to be a duplicate subject");
-        #}else{
-            $reverse_subjects{lc($parts[1])}=$parts[0];
-        #}
+        #skip Journals so then don't override accidently actaul subjects
+        unless ($parts[2] eq 'Journal'){    
+        	$reverse_subjects{lc($parts[1])}=$parts[0];
+        }
+        
+        
+        #deal with journals
+        if ($parts[2] eq 'Journal'){
+        	#the only thing that will happen is that the journalID will be grabed
+        	$parts[4]=~/Journal ID="(\d+)"/;
+        	$journalIDmap{ $1} = $parts[0];
+        }
+        
+        #make xml directory
+        my $authoIDx = sprintf("%09d", $parts[0]);  
+	$authoIDx='CBA'."$authoIDx";
+	$authoIDx =~ /(A\d\d\d\d\d)/;
+	$directoryXMLa{ $parts[0]  } = 'A/'."$1";
+	$identifierXMLa{ $parts[0] }= $authoIDx;
+                
+        
+      
+ 
         
         #make  a hahs contineing index entries
         #
@@ -124,7 +143,7 @@ my %subject_index_hash;
         
     $aux_files{$subjectsfile}=(stat($subjectsfile))[9];
     
-#}
+}
 
 
 #########categories
@@ -137,20 +156,45 @@ my $categoriesfile=$cats_File;
 #if ( (stat($categoriesfile))[9] > $aux_files{$categoriesfile}){
 if (1>0){    #for forcing to make new sub file (testing only 
 
-    open (IN, "< $categoriesfile") || error_b("[Error 143] Cannot open $categoriesfile $!");
+    open IN, "<:utf8", $categoriesfile || error_b("[Error 143] Cannot open $categoriesfile $!");
     #log_p('New categories file found. Making new categories databases.');
     %categories=();
     %categories_short=();
     while (<IN>){
         chomp;
-        
-        #convert characters
-        $_=l12cb($_);          
+   
         my @parts=split(/\t/,$_);
         $categories{$parts[0]}=$parts[1];
-        $categories_short{$parts[0]}=$parts[2];
+        
+        if ($parts[2] =~/[a-z]/){
+        	$categories_short{$parts[0]}=$parts[2];
+        	
+        }
     }
     close IN;
+    
+    foreach my $cat (keys %categories){
+    	    next if $categories{$cat} eq '';
+    	    next if $categories{$cat} =~/OMIT/;
+    	    if ($cat < 200){
+    	    	    push(@ae, $cat);
+    	    }elsif($cat < 400){
+    	    	    push(@fg, $cat);
+    	    }
+    }
+    
+   # open (CAT, "> categoriesEAC.tab") || error_b("[Error ] Cannot open categoriesEAC.tab $!");
+   # foreach my $cat1 (@fg){
+   # 	    foreach my $cat2 (@ae){
+   # 	    	    my $catNo="$cat1-$cat2";
+   # 	    	    my $catName="$categories{$cat1} - $categories{$cat2}";
+   # 	    	    print CAT "$catNo\t$catName\tspw\n";
+   # 	    }
+   # }
+   # foreach my $cat2 (@ae){
+   # 	    print CAT "$cat2\t$categories{$cat2}\tspw\t\n";
+   # }
+   # close CAT;
     
     $aux_files{$categoriesfile}=(stat($categoriesfile))[9];
     
@@ -160,15 +204,13 @@ if (1>0){    #for forcing to make new sub file (testing only
 #expects id \d description \d cause
 #if ( (stat($horuserrors_File))[9] > $aux_files{$horuserrors_File}){
 if (1>0){    #for forcing to make new sub file (testing only 
-    open (IN, "< $horuserrors_File") || error_b("[Error 182] Cannot open $categoriesfile $!");
+    open IN, "<:utf8", $horuserrors_File || error_b("[Error 182] Cannot open $categoriesfile $!");
     #log_p('New errors file found. Making new errors databases.');
     %errorinfo=();
     %errorhelp=();
     while (<IN>){
         chomp;
-        
-        #convert characters
-        $_=l12cb($_);          
+ 
         my @parts=split(/\t/,$_);
         $parts[1]=~s/<newline>/\n/g;
         $parts[2]=~s/<newline>/\n/g;
@@ -189,7 +231,7 @@ if (1>0){    #for forcing to make new sub file (testing only
 # if ( (stat($subtype_File))[9] > $aux_files{$subtype_File}){
 if (1>0){    #for forcing to make new sub file (testing only 
 
-    open (IN, "< $subtype_File") || error_s("[Error 182.1] Cannot open $subtype_File $!");
+    open IN, "<:utf8", $subtype_File || error_s("[Error 182.1] Cannot open $subtype_File $!");
     #log_p('New Allowed Subjects Term File found.');
      while (<IN>){
         chomp;
@@ -244,7 +286,7 @@ my $file=$_[0];
 my $hash=$_[1];    
 my $hash_name=$_[2];
 
-open (OUT, "> $file") || error_b(" [Error 144] Cannot open $file $!");
+open OUT, ">:utf8", $file || error_b(" [Error 144] Cannot open $file $!");
 
 print OUT '%'."$hash_name = (\n";
 

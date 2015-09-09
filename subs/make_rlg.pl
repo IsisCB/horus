@@ -40,7 +40,6 @@ if ($this->{mdescription} ne ''){
 # *Record number
 # (OK)
 $rlgfields[0]=$this->{record_number};
-
 #################################################
 
 ###2#############################################
@@ -425,9 +424,11 @@ $rlgfields[22]="$this->{description}";
 if($f25 ne ''){
     $rlgfields[22]="$rlgfields[22]"." $f25"; 
 }
-################################################# #24. Subject-Personal Name
+################################################# 
+#24. Subject-Personal Name
 #see 25
-################################################# #25. Subjects-Geographical Name 
+################################################# 
+#25. Subjects-Geographical Name 
 #[Format: separated by //] (OK) 
 #subject will be seperated by category
 #Subject-Personal Name
@@ -440,7 +441,13 @@ undef(@percub);
 
 while($this->{subjects}=~/\[(.*?)\]/g){
 	$d=$1;
-	if ($subjects_type{$d} eq 'Time period'){
+$st_lc=lc($subjects_type{$d});
+#test
+#log_p("$subjects_type{$d} -- $st_lc -- $subjects{$d} -- $allowedsubterm{$st_lc} \n");
+
+	if ($subjects_type{$d} eq '2003'){
+		push(@topcub, $subjects{$d});
+	}elsif ($subjects_type{$d} eq 'Time period'){
 		push(@percub, $subjects{$d});
 	}elsif($subjects_type{$d} eq 'Geog. term'){
 		$rlgfields[24]="$rlgfields[24]"."$subjects{$d} // ";
@@ -448,9 +455,15 @@ while($this->{subjects}=~/\[(.*?)\]/g){
 		$rlgfields[25]="$rlgfields[25]"."$subjects{$d} // ";
 	}elsif($subjects_type{$d} eq 'Per. names'){
 		$rlgfields[23]="$rlgfields[23]"."$subjects{$d} // ";
-    }else{
-        push(@topcub, $subjects{$d});
-    }
+#check if the subject is on the allowed subjects list 
+	}elsif($allowedsubterm{$st_lc} ne ''){ 
+
+#test
+#log_p("Yay. Found a special term \n");
+		push(@topcub, $subjects{$d});
+	}else{
+		error_s("Unknown subject type $subjects_type{$d} in subject $d in record $rlgfields[0]")
+	}
 }
 #make topical subjects
 foreach $s (sort @percub){
@@ -520,10 +533,10 @@ foreach $f (@rlgfields){
 $line=~s/^\t//;   
 $outfile=$rlg_out_File;
 if ($rlgfirstrecord eq ''){
-    open (OUT, "> $outfile") || error_b("[Error 165] Cannot open $outfile $!");
+    open OUT, ">:utf8", $outfile || error_b("[Error 165] Cannot open $outfile $!");
     $rlgfirstrecord=1;
 }else{    
-    open (OUT, ">> $outfile") || error_b("[Error 166] Cannot open $outfile $!");
+    open OUT, ">>:utf8", $outfile || error_b("[Error 166] Cannot open $outfile $!");
 }
 #get rid of comments
 $line=~s/<com:.*?>//g;
@@ -550,7 +563,7 @@ undef(%editor);
 tie %author,  "Tie::IxHash";
 tie %editor,  "Tie::IxHash";
 
-if($revres eq 'revRLG' || $revres eq 'rlg'){
+if($revres eq 'revRLG' || $revres eq 'rlg' || $revres eq 'edRLG'){
     %author=make_name($record_num,author,lf_rlg);
     %editor=make_name($record_num,editor,lf_rlg);
 }elsif($revres eq 'fl_dis_rlg'){
@@ -575,6 +588,8 @@ foreach $a (keys %editor){
 }
 $author=~s/^;\s//;
 $editor=~s/^;\s//;
+
+
 #if fixing the main names, just replace the field contents and quit
 if($revres eq 'rlg'){
     $this->{author}=$author;
@@ -614,11 +629,11 @@ sub print_rlg_proof{
 
 $outfile2=$tex_File;
 if ($rlgproof eq ''){
-    open (OUT2, "> $outfile2") || error_s("[Error 193] Cannot open $outfile2 $!");
+    open OUT2, ">:utf8", $outfile2 || error_s("[Error 193] Cannot open $outfile2 $!");
     print OUT2 "$head_rlg_proof\n";
     $rlgproof=1;
 }else{
-    open (OUT2, ">> $outfile2") || error_s("[Error 194] Cannot open $outfile2 $!");
+    open OUT2, ">>:utf8", $outfile2 || error_s("[Error 194] Cannot open $outfile2 $!");
     #print OUT2 '\noindent';
     print OUT2 '\begin{rlg}'; 
     #print OUT2 "\n";

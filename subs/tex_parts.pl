@@ -3,6 +3,8 @@
 
 $head_one=<<'EOF';
 \documentclass[10pt,twocolumn]{isiscb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \usepackage{ogonek}
 \usepackage{amssymb}
@@ -31,6 +33,10 @@ EOF
 
 $head_rlg_proof=<<'EOF';
 \documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{ogonek}
 \usepackage{ogonek}
 \usepackage{amssymb}
 \pagestyle{empty}
@@ -63,7 +69,10 @@ EOF
 
 $head_final=<<'EOF';
 \documentclass[isiscbpaper,10pt,twocolumn]{isiscb}
-\title{ISIS Current Bibliography 2006}
+\usepackage{fancyhdr}
+\usepackage{ogonek}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \usepackage{multicol}
 \usepackage{ogonek}

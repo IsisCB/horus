@@ -66,13 +66,7 @@ sub make_MODS_journals{
 		@alt_titles=split(/\\n/, $alt_Titles);
 		
 		
-		#get rid of white spaces
-		
-		#see if the alt title is the same as main title
-		#do the other alt title things
-		
-		#make frequencies
-		
+	
 		
 		#skip empty records
 		unless ($title eq 'USE FOR NEW JOURNALS' || $title eq ''){
@@ -84,16 +78,51 @@ sub make_MODS_journals{
 			
 			#######################
 			
-			#print XML header
+		 my $text_thes='';	
 		
-			print OUT '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-	      #print OUT '<?xml-stylesheet type="text/xsl" href="http://isiscb.org/transforms/isiscb-mods-html.xsl"?>'."\n";
-	       print OUT '<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.5" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">'."\n";
-	
-			#also here defined the langauge and character endoding to be insered into tags
+			 #print the control element
+  	  	 $text_thes="$text_thes".'<?xml version="1.0" encoding="UTF-8"?>'."\n";
+  	  	 #$text_thes="$text_thes".'<?xml-stylesheet type="text/xsl" href="http://isiscb.org/transforms/isiscb-eac-html.xsl"?>'."\n";
+  	  	 $text_thes="$text_thes".'<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">'."\n";
+  	  	 
+  	  	 
+  	  	 $text_thes="$text_thes"."\t".'<control>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<recordId>'."$identifierXMLa{$id}".'</recordId>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<maintenanceStatus>new</maintenanceStatus>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<maintenanceAgency>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<agencyName>History of Science Society Isis Bibliography</agencyName>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'</maintenanceAgency>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<languageDeclaration>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<language languageCode="eng">English</language>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<script scriptCode="Latn">Latin</script>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'</languageDeclaration>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<maintenanceHistory>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<maintenanceEvent>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t\t".'<eventType>derived</eventType>'."\n";   #or should this be 'created' instead
+  	  	 my $nowdate = localtime->strftime('%Y-%m-%d');
+  	  	 $text_thes="$text_thes"."\t\t\t\t".'<eventDateTime standardDateTime="'."$nowdate".'">'."$nowdate".'</eventDateTime>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t\t".'<agentType>machine</agentType>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t\t".'<agent>horus.pl</agent>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'</maintenanceEvent>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'</maintenanceHistory>'."\n";
+  	  	  $text_thes="$text_thes"."\t\t".'<sources>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<source xlink:href=">';
+  	  	 $text_thes="$text_thes".'http://isiscb.org/xml/'."$directoryXMLa{$id}".'/'."$identifierXMLa{$id}".'.xml';
+  	  	 $text_thes="$text_thes"."\t\t\t".'xlink:type="simple"/>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'</sources>'."\n";
+  	  	 $text_thes="$text_thes"."\t".'</control>'."\n";
 			
+		 #print the description element
+  	  	 $text_thes="$text_thes"."\t".'<cpfDescription>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t".'<identity>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<entityId>'."$identifierXMLa{$id}".'</entityId>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<entityType>'.'corporateBody'.'</entityType>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<descriptiveNote>'.'Periodical'.'</descriptiveNote>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t".'<nameEntry>'."\n";
+  	  	 $text_thes="$text_thes"."\t\t\t\t".'<part>';	
 			
-			############################
+  	  	 
+  	  	 ############################
 			#produce each top level element in order
 			
 			
@@ -308,7 +337,6 @@ sub make_MODS_journals{
 			#######################
 			#location
 			if ($homepage ne ''){
-				
 				print OUT "\t<location>\n";
 				print OUT "\t\t<url>$homepage</url>\n";
 				print OUT "\t</location>\n";

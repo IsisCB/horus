@@ -21,7 +21,7 @@ my $head='\documentclass[12pt]{article}'."\n".'\begin{document}'."\n\n";
 my $tail='\end{document}';
 
 $html="$head \n $html \n $tail";
-open (OUT, "> $html_File") || error_q("[Error 176] Could not open $html_File for writing");
+open OUT, ">:utf8", $html_File || error_q("[Error 176] Could not open $html_File for writing");
 print OUT "$html";
 close OUT;    
 system("tth -w \"$html_File\"");

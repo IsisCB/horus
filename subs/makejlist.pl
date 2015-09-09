@@ -2,7 +2,7 @@
 sub makejlist{
 
 #read a list of journas to be skipped
-open(IN, "< $Js2BSkipped_File") || error_s("Can't open $Js2BSkipped_File in makejlist.pl");
+open IN, "<:utf8", $Js2BSkipped_File || error_s("Can't open $Js2BSkipped_File in makejlist.pl");
 while (<IN>){
 chomp;
 $js2BSkipped_db{$_}=1;

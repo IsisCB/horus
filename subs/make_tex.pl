@@ -1,18 +1,22 @@
 #this creats varius forms of the latex file
 
+sub cb2tx {
+	return ($_[0]);
+}
+
 sub make_tex {
 #as options takes reference to the hash and an option to
 require 'subs\tex_parts.pl';
 
 my $record=$_[0];
 my $outfile=$_[1];
-open (OUT, ">> $outfile") || error_b ("[Error 158] Cannot open $outfile $!");
+open OUT, ">>:utf8", $outfile || error_b ("[Error 158] Cannot open $outfile $!");
 unless ( $print_tex_head == 1) {
 #if this is the first record on this run, deletes the old file and creas a new one
     close OUT;
     unlink($outfile);
     unlink($ids_File);
-    open (OUT, ">> $outfile") || error_b ("[Error 159] Cannot open $outfile $1");
+    open OUT, ">>:utf8", $outfile || error_b ("[Error 159] Cannot open $outfile $1");
     if($options[$choice] eq 'final'){
         print OUT "$head_final";
         print OUT "$hyphenation";
@@ -790,7 +794,7 @@ ac("\n\n".'\vspace{2ex}');   #the two \n\n are necessary to have the smaller lin
     print OUT "$cite \\end{footnotesize}";
     #print OUT '\end{footnotesize}';
     close OUT;
-    open (OUT, ">> $ids_File") || die ("Cound not opne $ids_File $!");
+    open OUT, ">>:utf8", $ids_File || die ("Cound not opne $ids_File $!");
     print OUT "$record_number\t$itemnumber{$record_number}\n";
     print OUT "$idsaddon";
     $idsaddon='';
@@ -808,12 +812,12 @@ require 'subs\tex_parts.pl';
 my $record=$_[0];
 my $outfile=$_[1];
 
-open (OUT, ">> $outfile") || error_b ("[Error 160] Cannot open $outfile $!");
+open OUT, ">>:utf8", $outfile || error_b ("[Error 160] Cannot open $outfile $!");
 unless ( $print_tex_head == 1) {
 #if this is the first record on this run, deletes the old file and creas a new one
     close OUT;
     unlink($outfile);
-    open (OUT, ">> $outfile") || error_b ("[Error 161] Cannot open $outfile $!");
+    open OUT, ">>:utf8", $outfile || error_b ("[Error 161] Cannot open $outfile $!");
     print OUT "$head_final";
     print OUT "$mainmatter";
     $print_tex_head=1;
@@ -1068,7 +1072,7 @@ print OUT "\n\n".'\vspace{0.75ex}';   #the two \n\n are necessary to have the sm
 $cite='';
 
 close OUT;
-open (OUT, ">> $ids_File") || die ("Cound not opne $ids_File $!");
+open OUT, ">>:utf8", $ids_File || die ("Cound not opne $ids_File $!");
 print OUT "$record_number\t$revitemnumber{$record_number}\n";
 close OUT;
 
@@ -1081,7 +1085,7 @@ sub make_tex_end{
 
 my $outfile=$_[0];
 
-open (OUT, ">> $outfile") || error_b ("[Error 162] Cannot open $outfile $!");
+open OUT, ">>:utf8", $outfile || error_b ("[Error 162] Cannot open $outfile $!");
 
 print OUT "$backmatter";
 
@@ -1364,7 +1368,7 @@ sub make_rev_chap{
 
 my $outfile=$_[0];
 
-open (OUT, ">> $outfile") || error_b ("[Error 163] Cannot open $outfile $!");
+open OUT, ">>:utf8", $outfile || error_b ("[Error 163] Cannot open $outfile $!");
 
 print OUT "\n";
 print OUT "$bookreviewshead\n";
@@ -1398,7 +1402,7 @@ if ($lng=~/^english/){
 
 sub read_print_records{
 #reads a file which determines which records to print
-open(IN, "< $print_File") || error_q("[Error 178] Could not open $print_File for reading $!");
+open IN, "<:utf8", $print_File || error_q("[Error 178] Could not open $print_File for reading $!");
 while(<IN>){
     chomp;
 $_=~/(.*?)\t/;

@@ -6,8 +6,8 @@ sub backup{
      my $one=$_[0];
 
 
-     open(BKP, ">>  $bkp_file") || error_b("could not open $bkp_file $! in backup.pl $!");
-     open(IN, "< $one") || error_s("could not open $one to back it up $!");
+     open BKP, ">>:utf8",  $bkp_file || error_b("could not open $bkp_file $! in backup.pl $!");
+     open IN, "<:utf8", $one || error_s("could not open $one to back it up $!");
      my $tm=time();
      while (<IN>){
         chomp;

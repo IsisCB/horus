@@ -31,7 +31,9 @@ sub make_MODS{
 	mods_print_head();
 	mods_make_title();
 	mods_make_names();
+	
 	$text_MODS="$text_MODS"."\t<typeOfResource>text</typeOfResource>\n";
+	
 	mods_make_genre();
 	mods_make_originInfo();
 	mods_make_language();
@@ -40,18 +42,6 @@ sub make_MODS{
 	mods_make_tableOfContents();
 	mods_make_notes();
 	mods_make_subject();
-	mods_make_mods_related_items();
-	unless ($this->{categories} eq ''){
-		mods_make_classification();
-	}
-	mods_make_identifier();
-	mods_make_recordInfo();
-	
-	$text_MODS="$text_MODS".'</mods>'."\n";
-	print OUT "$text_MODS";
-	undef ($text_MODS);
-	undef ($link2record);
-	close OUT;
 	
 	
 	

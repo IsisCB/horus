@@ -6,7 +6,7 @@ sub read_fm_options{
 
 #read the file from FM
 $fminfo=$fminfo_File;
-open (IN, "< $fminfo") || error_b("[Error 167] Could not open the $fminfo for reading $!");
+open IN, "<:utf8", $fminfo || error_b("[Error 167] Could not open the $fminfo for reading $!");
 while (<IN>){
     chomp;
     @fminfo=split(/\t/, $_);

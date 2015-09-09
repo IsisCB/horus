@@ -63,7 +63,7 @@ sub write_mer{
 $meroutfile=shift(@_);
 @merarray=@_;
 #print  @merarray;
-open (OUT, ">> $meroutfile")    || error_b("[Error 146] Could not open $meroutfile $!");
+open OUT, ">>:utf8", $meroutfile    || error_b("[Error 146] Could not open $meroutfile $!");
 
 $csv = Text::CSV->new();    # create a new object
 $status = $csv->combine(@merarray);    # combine columns into a string
@@ -98,7 +98,7 @@ sub make_dummy_mer{
 foreach $outfileFM (keys %outfiles){
     $outfile=$outfiles{$outfileFM};
     unlink($outfile);
-    open(OUT, "> $outfile") || error_b ("[Error 148] Could not open $outfile for writting $!");
+    open OUT, ">:utf8", $outfile || error_b ("[Error 148] Could not open $outfile for writting $!");
     print OUT "Record ID".","."Title\n";
     print OUT "197806".","."This record is need by a script DO NOT DELETE IT-DO NOT USE IT";     #dummy record
     close OUT;

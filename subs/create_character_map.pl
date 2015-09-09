@@ -1,6 +1,6 @@
 #this script will create a hash with CB codes and correspondin other codes
 
-open (OUT, "> character_map.pl") || die "Cannot opern the fiel character_map.pl $!";
+open OUT, ">:utf8", character_map.pl || die "Cannot opern the fiel character_map.pl $!";
 
 #requie hash of acii character and theri representaitons in CB
 require 'ascii_map.pl';

@@ -568,10 +568,10 @@ print_rlg_proof();
 $outfile=$rlg_out_File;
 
 if ($rlgfirstrecord eq ''){
-    open (OUT, "> $outfile") || error_b("[Error 165] Cannot open $outfile $!");
+    open OUT, ">:utf8", $outfile || error_b("[Error 165] Cannot open $outfile $!");
     $rlgfirstrecord=1;
 }else{    
-    open (OUT, ">> $outfile") || error_b("[Error 166] Cannot open $outfile $!");
+    open OUT, ">>:utf8", $outfile || error_b("[Error 166] Cannot open $outfile $!");
 }
 #get rid of comments
 #$line=~s/<com:.*?>//g;
@@ -688,11 +688,11 @@ sub print_rlg_proof{
 
 $outfile2=$tex_File;
 if ($rlgproof eq ''){
-    open (OUT2, "> $outfile2") || error_s("[Error 193] Cannot open $outfile2 $!");
+    open OUT2, ">:utf8", $outfile2 || error_s("[Error 193] Cannot open $outfile2 $!");
     print OUT2 "$head_rlg_proof\n";
     $rlgproof=1;
 }else{
-    open (OUT2, ">> $outfile2") || error_s("[Error 194] Cannot open $outfile2 $!");
+    open OUT2, ">>:utf8", $outfile2 || error_s("[Error 194] Cannot open $outfile2 $!");
     #print OUT2 '\noindent';
     print OUT2 '\begin{rlg}'; 
     #print OUT2 "\n";

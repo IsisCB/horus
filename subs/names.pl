@@ -30,6 +30,8 @@ extract_names($record, $field, @names);
 
 ##########################################################
 sub extract_names {
+	
+
 #as an argument takes names in an array
 
 
@@ -62,7 +64,7 @@ if ($namesdoneIndex{$jjki} eq ''){
 
 
 
-    $orignial_name=$name;           #create a copy for replacing later on
+    $original_name=$name;           #create a copy for replacing later on
     $name=~s/<com:.*?>//g;
     sqeez($name);
     $name=~s/,>/345679/g;   #so that will not missinterpret ,>
@@ -159,7 +161,27 @@ foreach $n ($last, $first, $suffix, $prefix){
 
 $namesIndex{$record->{record_number}}->{$field}=
     "$namesIndex{$record->{record_number}}->{$field}".
-    "$orignial_name\t$order\t$last\t$first\t$suffix\t$prefix\n";
+    "$original_name\t$order\t$last\t$first\t$suffix\t$prefix\n";
+
+#temp for making stand alone list of names
+#my $printName='';
+#if ($prefix ne '' && $suffix ne ''){
+#	$printName = "$prefix $last, $first, $suffix";
+#}elsif($prefix ne ''){	
+#	$printName = "$prefix $last, $first";
+#}elsif($suffix ne ''){
+#	$printName = "$last, $first, $suffix";
+#}else{
+#	
+#	$printName = "$last, $first";
+#}
+#$printName = "$printName\t$original_name\t$order\t$last\t$first\t$suffix\t$prefix\t$record->{record_number}\t$field\n";
+#use Encode;
+#	use utf8;
+#	binmode STDOUT, ":utf8";
+#	$printName = $printName);
+#print OUT "$printName";
+
 
 }
 
@@ -245,6 +267,7 @@ if($definenametypesfirst ne '1'){
     'srt'=>'last first, last first (all lower case used for sorting) (cant use sort since it is a comand)',
     'lf_fl_in'=>'last, first, first last but first names intials only and et alfter',
     'lf_rev'=>'last, f.i. last first, initials only, no space in initials and few other things',
+    'li'=>'Last initilan, no spaces.',
 );
 $definenametypesfirst=1;
 }
@@ -411,7 +434,17 @@ foreach $name (@names){
                 error_b("Order $order in $name is record $record->{record_number} not known");
 
             }
+     }elsif($type eq 'li'){
+     	     $new="$last";
+     	     my $initials;
+     	     my $first_unicode=$first;
+     	     #needs to fix so it matches unicode uppers
+     	     while ($first_unicode=~/\b([A-Z])/g){
+     	     	     $initials="$initials"."$1";
+     	     }
+     	     $new="$new $initials"
      }
+     
     $new_names{$original_name}=$new;
 }
 
@@ -460,7 +493,7 @@ sub initial2 {
             $nnw='';
             @fnam=split(/\s/, $first);
             foreach $n (@fnam){
-            #do not initial things that star with lower case
+            #do not initial things that start with lower case
             if ($n=~/^\s*[a-z]/){
                 $nnw="$nnw $n ";
             }else{    

@@ -4,7 +4,7 @@ sub extract_for_analysis {
 	use utf8;
 	
 	my $id=$this->{record_number};
-	my $journal=unicode_convert($journals{ $this->{journal_link} }, no_quote);
+	my $journal=$journals{ $this->{journal_link} };
 	my $category=$this->{categories};
 	my $year=$this->{year};
 	
@@ -55,7 +55,7 @@ sub extract_for_analysis_authors{
 	my $id=$this->{record_number};
 	
 	
-	my $journal=unicode_convert($journals{ $this->{journal_link} }, no_quote);
+	my $journal=$journals{ $this->{journal_link} };
 	
 	my $category=$this->{categories};
 	my $year=$this->{year};
@@ -91,7 +91,7 @@ sub extract_for_analysis_authors{
 	#my %folks=(%folk1, %folk2, %folk3, %folk4);
 	
 	###do publisher
-	my $publisher=unicode_convert($this->{place_publisher}, no_quote);
+	my $publisher=$this->{place_publisher};
 	
 	
 	if($publisher =~/:(.*);*/){
@@ -126,7 +126,6 @@ sub extract_for_analysis_authors{
 		sqeez($person);
 		unless ($person eq ''){
 			
-			$person=unicode_convert($person, no_quote);
 			open OUT1, ">>:utf8",$analysis_author_File or error_b("[Error 7283q] Cannot open $eac_FileN $!");			
 			
 			if ($cat1 ne ''){
@@ -186,11 +185,11 @@ sub extract_for_analysis_subjects{
 	my $id=$this->{record_number};
 	
 	
-	my $journal=unicode_convert($journals_abbreviations{ $this->{journal_link} }, no_quote);
+	my $journal=$journals_abbreviations{ $this->{journal_link} };
 	
 	my $category=$this->{categories};
 	my $year=$this->{year};
-	my $title=unicode_convert($this->{title}, no_quote);
+	my $title=$this->{title};
 	
 	($cat1, $cat2) = split(/-/, $category);
 	if($categories_short{$cat1} ne ''){
@@ -226,7 +225,7 @@ sub extract_for_analysis_subjects{
 	
 	foreach $s (@subs){
 		unless ($subjects{$s} eq ''){
-			$sub=unicode_convert( $subjects{$s}, no_quote );
+			$sub= $subjects{$s};
 			#person - subject
 			
 			open OUT1, ">>:utf8",$contributor_subject_File or error_b("[Error 7283q] Cannot open $eac_FileN $!");
@@ -234,7 +233,7 @@ sub extract_for_analysis_subjects{
 				sqeez($person);
 				unless ($person eq ''){
 					
-					$person=unicode_convert($person, no_quote);
+					$person=$person;
 					
 					
 					
@@ -277,7 +276,7 @@ sub analysis_dissertation {
 	use Encode;
 	use utf8;
 	
-	my $desc=unicode_convert( $this->{description}, no_quote);
+	my $desc= $this->{description};
 	
 	if ($desc=~/dissertation\s+at\s+(.*?),\s+(\d\d\d\d)/i){
 		my $school=$1;
@@ -311,7 +310,7 @@ sub analysis_dissertation {
 		}		
 		
 		
-		my $author=unicode_convert($this->{author}, no_quote) ;
+		my $author=$this->{author};
 		
 		
 		

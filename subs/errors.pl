@@ -68,7 +68,7 @@ sub skiped_records_log{
     $skip_log="\nSome records were not printed out for the folling reasons:\n";
   }
   $skfile="$skip_File"."$k".".tab";
-  open (OUT, "> $skfile") || print "Could not open $skfile $!\n";
+  open OUT, ">:utf8", $skfile || print "Could not open $skfile $!\n";
   @sk=split(/,/, $skipr{$k});
   foreach $a (@sk){ 
       print OUT "$a\t \n";
@@ -92,7 +92,7 @@ close OUT;
 
 #make backup
 
-open (OUT, ">> $fcbkcp_File") || die "[Error 196] Cannot open $fcbkcp_Filee $!";
+open OUT, ">>:utf8", $fcbkcp_File || die "[Error 196] Cannot open $fcbkcp_Filee $!";
 print OUT "$fcbckpl";
 close OUT;
 
@@ -100,29 +100,10 @@ skiped_records_log();
 $tstamp=localtime;
 $errhead="___________________\n$tstamp running $actionFMO mode by $userFMO\n($fminfoline)\nRecord numbers read: $logreadrecs\n";
 $efftail="END OF LOG\n";
-#this is a perminant log
-#open (OUT, ">> $alllog_File") || die "[Error 174] Cannot open $log_Filee $!";
-#print OUT "$errhead";
-#if ($log){
-#    print OUT "\nMESSAGES:\n";
-#    print OUT "$log";
-#}
-#if($warlog){
-#    print OUT "\nWARNINGS:\n";
-#    print OUT "$warlog";
-#}
-#if($errorlog){
-#    print OUT "\nERRORS:\n";
-#    print OUT "$errorlog";
-#}
-#if($skip_log){
-#    print OUT "$skip_log";
-#}
-#print OUT "$errtail";
-#close OUT;
+
 
 #this is the log with only the last run
-open (OUT, "> $lastlog_File") || die "[Error 175] Cannot open $lastlog_File $!";
+open OUT, ">:utf8", $lastlog_File || die "[Error 175] Cannot open $lastlog_File $!";
 
 #if errors print instructions
 if($errorlog){
@@ -189,7 +170,7 @@ $error_sub_file=$error_sub_File;
 print "_______$errorsubjects\n";
 close OUT;
 
-open (OUT, "> $error_sub_file") || die "\nCan't open $error_sub_file for writing $!\n";
+open OUT, ">:utf8", $error_sub_file || die "\nCan't open $error_sub_file for writing $!\n";
 print OUT "$errorsubjects";
 close OUT;
 

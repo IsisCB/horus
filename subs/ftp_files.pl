@@ -158,7 +158,7 @@ sub recheckout{
 unless ($checkoutfiledone==1){      #don't do this if it was already done
 
         #re checout the files
-        open (IN, "< $checkin_File");
+        open IN, "<:utf8", $checkin_File;
         while(<IN>){
             chomp;
             $stillcheckedout{$_}=1;
@@ -166,7 +166,7 @@ unless ($checkoutfiledone==1){      #don't do this if it was already done
         close IN;
         unlink($checkin_File);
                 
-        open(OUT, "> $checkedout_File") || error_b("[Error 186x] Could not open $checkedout_File for writting $!");
+        open OUT, ">:utf8", $checkedout_File || error_b("[Error 186x] Could not open $checkedout_File for writting $!");
         #so that the file will not be empty
         print OUT "197806\t\n";
 

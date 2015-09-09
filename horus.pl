@@ -11,8 +11,7 @@ $convertcharaterloose = 'loose';
 ####################################################
 
 system('cls');  #clear the window
-#require 'subs\hi.pl';
-#hi();
+
 use lib 'C:\CB directory\Aux Files';
 
 require 'subs\errors.pl';
@@ -22,9 +21,6 @@ require 'subs\fm_read_options.pl';
 require 'subs\ftp_files.pl';
 require 'subs\sqeez.pl';
 require 'subs\print_data.pl';
-require 'subs\character_convert.pl';
-require 'subs\character_map.pl';
-require 'subs\ascii_map.pl';
 require 'subs\names.pl';
 require 'subs\closing.pl';
 
@@ -191,6 +187,11 @@ if ($fmw eq 'one' || $fmw eq 'cleanup'){
           unlink("$log_File");
           unlink("$toc_File");
     }
+}elsif ($fmw eq 'test'){
+    require 'subs\versioncheck.pl';
+    require 'subs\perl_startup.pl';  
+    require 'subs\update.pl';
+    test();
 }elsif ($fmw eq 'startup'){
     require 'subs\perl_startup.pl';
     startup();
