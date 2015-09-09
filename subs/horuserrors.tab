@@ -1,0 +1,95 @@
+100	While attempting to print section heads, found section number with no corresponding section names.	1. Incorrect section number [Fix the section number in the data]2. Updated categories file not exported. [Update, if necessary, categories file and export ]	Warning	print_section.pl
+101	Processing  record A which links to record B, but record B is not part of the exported set. If the record B is linkd via a <xref>, then the record number of the linking record is followed by  '(via xrev)' note.	1. The linked record was not exported. [The list of missing records is printed in the Aux files/recordstoget.tab file, include all of those records in the export file and run the script again]	Warning	
+102	The subject_check subrutine check the subject type, the subject was found to be of a type which is either unknown or forbiden. (Subject errors are exported into subs/subject_errors.tab)	1. Incorrect subject term. [Change the subject term]2. New subject type/modification of allowed subject types [Update the allowed subject types in the %allowedsubterm hash located in the subs/subject_check.pl file.]	Warning	subs/subject_check.pl
+103	The subject was replaced by the new subject associted with the number		Message	subs/subject_check.pl
+104	If essey reviews do not have their own subjects and/or catagories, subjects and/or categores from the book of the review are used. If the review is of multiple books, a random one of them is used as the source.	1. If different subjects and/or categories are descired, put them in the data	Message	subs/read_data.pl
+105	moose.pl was called with an unrecognized command. This is a fatal error which crashes the script.	1. This command is set by the FileMaker script which calls on the Perl scripts. In RecordIDs database the field `action' is the one which contains the command. If you modfied the contetn of this fileld (or a script which sets it), undo your error. Otherwise consult sr.	Error	subs\set_options.pl
+106	Durinig initial reading of data the the script splits the comma seperated records into individual fields. If an a record cannot be split this error occurs. The offending record follows the error message in the LOG file. The script proceeds with all of its action ingoring the record which could not be split; no actions are performed in this record.	1. The spliting ruinte recognizes only ASCII 128 characters. Before the record is split is is converted into the CB encoding which utelizes only teh 128 characters. However, it may be possible that the coversion was compromized. There seem to be few character which cannot be converted, known ones are ASCII 15 (shift in). [Locate the offending character in the record and add it to subs/character_map.pl. Alternatively remove the character from the data file they are most likely located in text pasted from another application such as a webbrower. Try removing trailing white spaces, or any hard returns from the text.]	Error	subs/read_data.pl
+107	The make_name subrutien converts names into the formats used in CB work. Many formats are specified, however this error occurns when an unknow format is called for. The name will not be processed and will not appear in the returned text. If the texts is reimported to FileMaker, data loss can occur.	1. Script called for the unknown type. [Add the type to the types in make_name subruiten, or change to type to a known one in the script calling it.]	Error	subs/names.pl
+108	Error reported if an FTP transfer to the server to a speified file is unsucessfuls. An additional message is printed to the terminal screen. FTP error message printed in the LOG	1. Disc quota excited [Make more room on the FTP server or send smaller file]2. File to send not present on the local machine [Make sure the file to be send is present, or modify the script to send the appropriete file]3. The directory to which the trasfer was specified does not exist [Create the directory, or transfer the file to an existing directory]4. Internet connection interupted [Fix internet connection and try again]	Error	subs/ftp_files.pl
+109	Error reported if an FTP transfer to the server  is unsucessfuls. An additional message is printed to the terminal screen. FTP error message printed in the LOG	1. Disc quota excited [Make more room on the FTP server or send smaller file]2. File to send not present on the local machine [Make sure the file to be send is present, or modify the script to send the appropriete file]3. Internet connection interupted [Fix internet connection and try again]	Error	subs/ftp_files.pl
+110	Error reported if an FTP transfer from the server to a speified file is unsucessfuls. An additional message is printed to the terminal screen. FTP error message printed in the LOG	1. File to dowload not present on the server [Make sure the file to be downloaded is present, or modify the script to send the appropriete file]2. The directory to which the trasfer was specified does not exist [Create the directory, or transfer the file to an existing directory]3. Internet connection interupted [Fix internet connection and try again]	Error	subs/ftp_files.pl
+111	Error reported if an FTP transfer from the server  is unsucessfuls. An additional message is printed to the terminal screen. FTP error message printed in the LOG	1. File to download  not present on the server [Make sure the file to be downloaded is present, or modify the script to send the appropriete file]2. Internet connection interupted [Fix internet connection and try again]	Error	subs/ftp_files.pl 
+112	Cound not establish a connection with the OU FTP server	1. Internet connection unevailbale [Fix internet connection]2. FTP server down. [Wait, call IT people, pray]	Error	sub/ftp_files.pl
+113	Cound not login as isis to the  OU FTP server	1. Internet connection lost [Fix internet connection]2. incorrect username or password (currently 'isis' and 'thecb1') [Fix the username and passward in the subs/ftp_files/pl in the line >unless ( $ftp->login(isis, thecb1) )   #user name and passward specified here]	Error	sub/ftp_files.pl
+114	An unrecognized character encoding found in text $_[0] while attempting to convert from CB encoding to Latin 1 encoding. The scripts treats any text betwen < > as a special characteres. The symbols < > are reserved as delimiters of special characters, use <lt> and <gt> for the less then and greater then symbols. The script does nothing to the unrecognized character.	1. Incorect symbol used [Consult the list of recognized symbols and use a chorect one]2. New symbol introduced and the list of symbols not updated [Update the list of symbols].3. Characters < or > used not as symbol delimiters [Use <lt> and <gr> instead of < and >]	Error	subs/characters_convert.pl
+115	An unrecognized character encoding found in text $text while attempting to convert from CB encoding to LaTeX encoding. The scripts treats any text betwen < > as a special characteres. The symbols < > are reserved as delimiters of special characters, use <lt> and <gt> for the less then and greater then symbols. The script does nothing to the unrecognized character.	1. Incorect symbol used [Consult the list of recognized symbols and use a chorect one]2. New symbol introduced and the list of symbols not updated [Update the list of symbols].3. Characters < or > used not as symbol delimiters [Use <lt> and <gr> instead of < and >]	Error	subs/characters_convert.pl
+116	In the file maker convension names can have only three parts seperated by commas (plus a prefix). If the script encouters a name which has more than two comman is gets confused and does not know what to do. This probably occurs when multiple names are seperated by commas instead of semicolons. The script will attempt to prevent data loss, but information will be printed only partialy and inccoreclty.	1. Multiple names seperated by commnas [Seperate multiple names by semicolons.]2. Name with more then three parts [Prefexis are seperated by | . Otherwise consult the CB handbook on how to properly format names]	Error	subs/names.pl
+117	Unspecified error with the name A in record N	1. Improperly formated name [Consult the CB handbook and format the name correctly[	Error	subs/names.pl
+118	The script sorts names and formats page numbers with up to 6 digits. The page number N (part of the pages field P) appears to be longer than 6 digits. This maybe because there is additional information in the pages field, or multiple page rages are present. No data loss will results but there may be problemes with formating of the page numbers, and sorting of records. The  offending pages were possibly from record number R, though this is not certain)	1. Additioanl data in the pages field. [Remove any spurious information from the pages field.]	Warning	subs\sorts.pl
+119	Cannot open one of the supposedly dowloaded files while performing updates		Fatal Error	subs\update.pl
+120	Could not delete one of the update files. This possibly may mean that old data will be used in a future run	1. The file is possibly ones in another application which is locking it [Close the file in that application (WinEdt does not lock files, so it is safe to have the file open there)]	Warning	subs\update.pl
+121	Cannot open file to send updates to the server	1. The file was not created by FileMaker during the updates send script	Fatal Error	subs\update.pl
+122	 Could not ceate an update file to place on the server.		Fatal Error	subs\update.pl
+123	Could not delete FileMaker export file. This possibly may mean that old data will be used in a future run	1. The file is possibly ones in another application which is locking it [Close the file in that application (WinEdt does not lock files, so it is safe to have the file open there)]	Warning	subs\update.pl
+124	 Could not open the file that contains record numbers of updated records when deteriming which record updates to dowload		Fatal Error	subs\update.pl
+125	 Could not open the file		Fatal Error	subs\synch.pl
+126	 Could not open the file		Fatal Error	subs\synch.pl
+127			Error	subs\synch.pl
+128			Error	subs\synch.pl
+129	Unknown subject	1. Updated thesaurus not exported [Export]2. Thesaurus not updated [Update and export]	Warning	subs/subject_check.pl
+130	Unknown subject	1. Updated thesaurus not exported [Export]2. Thesaurus not updated [Update and export]	Warning	subs/subject_check.pl
+131			Error	subs\sorts.pl
+133			Fatal Error	subs/read_data.pl
+134			Fatal Error	subs/read_data.pl
+135			Fatal Error	subs/read_data.pl
+136			Fatal Error	subs/read_data.pl
+137			Fatal Error	subs/read_data.pl
+138			Fatal Error	subs/read_data.pl
+139			Fatal Error	subs/read_data.pl
+140			Fatal Error	subs/read_aux_files.pl
+141			Fatal Error	subs/read_aux_files.pl
+142			Warning	subs/read_aux_files.pl
+143			Fatal Error	subs/read_aux_files.pl
+144			Fatal Error	subs/read_aux_files.pl
+145	While making a mer file		Fatal Error	subs/print_data.pl
+146	While making a mer file		Fatal Error	subs/print_data.pl
+147	While making a mer file		Error	subs/print_data.pl
+148	in make_dummy_mer		Fatal Error	subs/print_data.pl
+149			Fatal Error	subs/start_up.pl
+150			Fatal Error	subs/start_up.pl
+151			Fatal Error	subs/start_up.pl
+152			Fatal Error	subs/start_up.pl
+153			Fatal Error	subs/start_up.pl
+154			Fatal Error	subs/start_up.pl
+155			Fatal Error	subs/start_up.pl
+156			Warning	subs/start_up.pl
+157	names with suffixes must be enetered in the last, first, suffix format. This error is genertaed when a name matches Jr, Sr, or III but does not detect two commans in the name	1. Incorrect format [Rewrtite using last, fistr, suffix]2. The match which set the error was caused by a correctly formated name [Do nothing]	Warning	
+158			Fatal Error	subs/make_tex.pl
+159			Fatal Error	subs/make_tex.pl
+160			Fatal Error	subs/make_tex.pl
+161			Fatal Error	subs/make_tex.pl
+162			Fatal Error	subs/make_tex.pl
+163			Fatal Error	subs/make_tex.pl
+164			Warning	subs/make_tex.pl
+165			Fatal Error	subs/make_rlg.pl
+166			Fatal Error	subs/make_rlg.pl
+167			Fatal Error	subs/fm_read_options.pl
+168	horus.pl was called from FileMaker wiht an unknown option 		Fatal Error	horus.pl
+169		1. Source of data not entered [Enter the source of data and export again]2. Source of data field not exported [Include the field in export file]	Error	subs/check_form.pl
+170		1. language not entered [Enter the language and export again]2. language field not exported [Include the field in export file]	Error	subs/check_form.pl
+171			Fatal Error	moose.pl
+172			Fatal Error	moose.pl
+173			Warning	moose.pl
+174			Fatal Error	subs\errors.pl
+175			Fatal Error	subs\errors.pl
+176	This is a temp file which is used as the tex source for tth program to read and convert into htm file			subs/make_html.pl
+178				subs/make_tex.pl
+179		1 FTP server is full [make room on the server]	Error	subs/ftp_files.pl
+180		1 FTP server is full [make room on the server]	Error	subs/ftp_files.pl
+181			Message	subs/subjects_check.pl
+182			Error	
+183	Before putting an update file on the server the script  attempts to split the record to make sure the record containes no errors. If an a record cannot be split this error occurs. The offending record follows the error message in the LOG file. The script proceeds with other records.  No update is placed on the server. In order to place an update on the server, fix the reocrd then recheck it in.	1. The spliting ruinte recognizes only ASCII 128 characters. Before the record is split is is converted into the CB encoding which utelizes only teh 128 characters. However, it may be possible that the coversion was compromized. There seem to be few character which cannot be converted, known ones are ASCII 15 (shift in). [Locate the offending character in the record and add it to subs/character_map.pl. Alternatively remove the character from the data file they are most likely located in text pasted from another application such as a webbrower. Try removing trailing white spaces, or any hard returns from the text. Then check out the record again (if the record checked in) and recheck it in.]	Error	sub/update.pl
+184		Make sure that connection to the ftp server is stable, and re run the script.	Error	sub\perl_startup.pl
+185	This file should be generated everytime that the update script is run, 		Error	sub/perl_startup.pl
+186			Error	subs/perl_startup.pl
+187		1. Possibly the server is being updated. Wait 10 minutes and try again. If the problem persists ask for help.	Fatal Error	subs/perl_startup.pl
+188	This is a fatal error because it makes sure that current version of the data is being used. 	1. Try and run the script again. If the problem persists ask for help.	Fatal Error	subs\versioncheck.pl
+189	There is a new version of CB data on the server. If you are connected to the Internet through a high speed confection and have 30minutes time run the 'Update CB Data script'... Otherwise repeat the procedure you were attempting and continue working as usual. Update CB Data when possible.		Error	subs\versioncheck.pl
+190			Fatal Error	subs\versioncheck.pl
+191		You still have not dowloaded the new version of CB Data from the server.  If you are connected to the Internet through a high speed conection and have 30minutes time run the 'Update CB Data script'... Otherwise continiu working as usulal. Update CB Data when possible.	Message	sub\versionchceck.pl
+192			Fatal Error	subs/veriosncheck.pl
+193			Warning	subs/make_rlg.pl
+194			Warning	subs/make_rlg.pl
+195			Warning	moose.pl
+196			Error	subs/errors.pl

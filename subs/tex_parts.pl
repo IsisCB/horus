@@ -1,0 +1,284 @@
+#this file contians various bits of needed to make latex files
+#probaly parts of it can be generated on the go
+
+$head_one=<<'EOF';
+\documentclass[10pt,twocolumn]{isiscb}
+\usepackage{fancyhdr}
+\usepackage{ogonek}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{tipa}
+\usepackage{url}
+\usepackage{pslatex}
+\usepackage{semtrans}
+\usepackage[T2A,OT1]{fontenc}   %for cyrillic
+\usepackage[ot2enc]{inputenc}   %for cyrillic
+
+\makeatletter
+%adds some flexibility to the right justrification
+\rightskip=0pt plus 1em
+\@rightskip=\rightskip % for LaTeX
+\makeatother
+\newcommand{\smark}[1]{\markboth{#1}{}}
+\usepackage[frenchb,german,italian,spanish,swedish,russian,polish,latin,czech,croatian,portuguese,english]{babel}
+\pagestyle{empty}
+\begin{document}
+
+\noindent
+
+EOF
+###########################################################
+
+$head_rlg_proof=<<'EOF';
+\documentclass[10pt]{article}
+\usepackage{ogonek}
+\usepackage{amssymb}
+\pagestyle{empty}
+\usepackage{pslatex}
+\usepackage{tipa}
+\usepackage{semtrans}
+\setlength{\voffset}{0in} \setlength{\hoffset}{0in}
+\setlength{\oddsidemargin}{0.3in} \setlength{\topmargin}{0in}
+\setlength{\textwidth}{5.7in} \setlength{\textheight}{8.6in}
+\setlength{\headsep}{0in} \linespread{1}
+
+\makeatletter
+
+\newenvironment{rlg}%
+{\begin{list}{}{%
+\setlength{\labelwidth}{1in}
+%\setlength{\leftmargin}{1in}%
+\setlength{\itemindent}{0in}}%
+\setlength{\itemsep}{-\parskip}}
+{\end{list}}
+
+\makeatother
+
+\begin{document}
+
+\noindent
+
+EOF
+###########################################################
+
+$head_final=<<'EOF';
+\documentclass[isiscbpaper,10pt,twocolumn]{isiscb}
+\title{ISIS Current Bibliography 2006}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{ogonek}
+\usepackage{amssymb}
+\usepackage{tipa}
+\usepackage{url}
+\usepackage{pslatex}
+\usepackage{semtrans}
+\usepackage[T2A,OT1]{fontenc}   %for cyrillic
+\usepackage[ot2enc]{inputenc}   %for cyrillic
+\usepackage[frenchb,german,italian,spanish,swedish,russian,polish,latin,czech,croatian,portuguese,english]{babel}
+%\linespread{0.9}  % i think those two lines do the same thing
+\renewcommand{\baselinestretch}{0.9}
+%supposely prevents widows and orphans, lets give it a try
+\widowpenalty=1000
+\clubpenalty=1000
+
+
+\makeatletter
+
+%\newcommand{\nohyphens}{\hyphenpenalty=10000\exhyphenpenalty=10000\relax}
+
+
+\renewcommand{\paragraph}{\@startsection
+{paragraph}%
+{4}%
+{0pt}%
+{-0.5\baselineskip}%
+{-0pt}%   
+{\normalfont\small\textbf}}
+
+%\renewcommand{\section}{\@startsection
+%{section}%
+%{1}%
+%{0pt}%
+%{2\baselineskip}%
+%{-0pt}%
+%{\raggedright\sffamily\small\uppercase}}
+
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname \hspace{0.3em}}
+
+%\renewcommand{\subsection}{\@startsection
+%{subsection}%
+%{2}%
+%{0pt}%
+%{1.5\baselineskip}%
+%{-0pt}%
+%{\raggedright\sffamily\footnotesize\uppercase}}
+
+%\renewcommand{\@seccntformat[1]{\fbox{\csname the#1\endcsname}\hspace{0.5em}
+
+%adds some flexibility to the right justrification
+\rightskip=0pt plus 1em
+\@rightskip=\rightskip % for LaTeX
+
+\makeatother
+
+\renewcommand{\subsectionmark}[1]{\markright{}}
+%\addtolength{\baselineskip}{-5pt}
+\setlength{\footskip}{0pt} \setlength{\oddsidemargin}{0pt}
+\addtolength{\textheight}{9\baselineskip}
+\addtolength{\textwidth}{6mm}
+\newcommand{\smark}[1]{\markboth{#1}{}}
+
+%\newcounter{item}
+
+
+\setcounter{tocdepth}{2}  %show down to section (no subsection)
+
+\begin{document}
+\twocolumn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%
+\frontmatter
+%%%%%%%%%%%
+\pagestyle{fancy} \lhead[\thepage]{} \chead[\rightmark 
+]{\rightmark} \rhead[]{\thepage} \lfoot[]{}
+\cfoot[]{} \rfoot[]{}
+
+\begin{footnotesize}
+\tableofcontents \cleardoublepage
+\end{footnotesize}
+\selectlanguage{english}
+
+EOF
+
+#introduction will go in here
+
+$jlisthead=<< 'EOF';
+
+
+\chapter{Journal List}
+\markright{Journal List}
+\begin{small}
+
+The list of journal abbreviations below is a cumulative list that
+includes journals cited in past volumes of this bibliography.
+The asterisks indicate that a journal is cited this year.
+\end{small}\begin{footnotesize}\raggedright \begin{multicols}{2}  
+
+EOF
+
+
+$jlisttail=<< 'EOF';
+
+\end{multicols}  
+\end{footnotesize}
+
+EOF
+
+$mainmatter=<< 'EOF';
+\twocolumn
+%%%%%%%%
+\mainmatter
+%%%%%%%%%%
+\pagestyle{fancy} \lhead[\thepage]{} \chead[\thesection\
+\leftmark]{\thesection\  \leftmark} \rhead[]{\thepage} \lfoot[]{}
+\cfoot[]{} \rfoot[]{}
+
+
+%\pagestyle{fancy} \lhead[\thepage]{} \chead[\thesection\
+%\rightmark]{\thesection\ \rightmark}
+%\rhead[]{\thepage}
+%\lfoot[]{}
+%\cfoot[]{}
+%\rfoot[]{}
+EOF
+
+$mainmatter2=<< 'EOF';
+%%%%%%%%
+%\mainmatter
+%%%%%%%%%%
+\pagestyle{fancy} \lhead[\thepage]{} \chead[\thesubsection\
+\rightmark : \leftmark]{\thesubsection\ \rightmark :  \leftmark}
+\rhead[]{\thepage}
+\lfoot[]{}
+\cfoot[]{}
+\rfoot[]{}
+EOF
+
+$backmatter=<<'EOF';
+%%%%%%%%%%%%
+\backmatter
+%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead[\thepage]{}
+\chead[\leftmark  \rightmark]{\leftmark   \rightmark}
+\rhead[]{\thepage}
+\lfoot[]{}
+\cfoot[]{}
+\rfoot[]{}
+EOF
+
+$bookreviewshead=<<'EOF';
+\chapter*{Book Reviews}
+\smark{Book Reviews}
+\addcontentsline{toc}{chapter}{Book Reviews}
+\pagestyle{fancy}
+\lhead[\thepage]{}
+\chead[\leftmark  \rightmark]{\leftmark   \rightmark}
+\rhead[]{\thepage}
+\lfoot[]{}
+\cfoot[]{}
+\rfoot[]{}
+EOF
+
+
+$authorindexhead=<<'EOF';
+\onecolumn
+\chapter{Author Index}
+\smark{Author Index}
+\setlength{\columnseprule}{0pt}
+\begin{multicols}{3}\raggedright
+\begin{scriptsize}
+EOF
+
+$authorindextail=<<'EOF';
+\par
+\end{scriptsize}
+\end{multicols}
+EOF
+
+$subjectindexhead=<<'EOF';
+\onecolumn
+\chapter{Subject Index}
+\smark{Subject Index}
+\setlength{\columnseprule}{0pt}
+\begin{multicols}{3}\raggedright
+\begin{scriptsize}
+EOF
+
+
+
+$subjectindextail=<<'EOF';
+\par
+\end{scriptsize}
+\end{multicols}
+EOF
+
+$renewsection=<<'EOF';
+\makeatletter%
+\renewcommand{\section}{\@startsection {section}{1}{0em}%\z@
+{1em\@plus 1ex \@minus 0.5ex}% beforeskip
+{1ex\@plus 0.2ex}% afterskip%
+{\hrule\raggedright\sffamily\small\uppercase}}%
+\makeatother%
+EOF
+#################################################################3
+
+
+$enddocument_one=<< 'EOF';
+
+\end{document}
+EOF
+
+
+1;

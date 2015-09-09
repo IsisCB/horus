@@ -1,0 +1,26 @@
+#change log
+16 May 2005
+-changed the subjects, journals, and categories files from hashes to .db files
+-did some clean up deliting unsed files
+-made moose.pl a subrutine of corona
+
+18 Feb 2005
+-fixed the published cb2tx in the full citation in the chapter prinotut
+-fixed names in edition detail
+-fixed babel to lc
+
+17 Feb 2005
+-fixed sorting of essay reviews and Journal articles (Journal Article -> JournalArticle)
+-change all the Journal Article -> JournalArticle that i could find, but maybe more
+-fixed some thing woith the printing of <xref> items
+-totaly redid the puncuations after the title
+-addes copyriht and some other symbols
+-now sortst roman numnerla correcy and puts them before the arabic
+-espace ^ in replacing names in the name fix scripts
+-in quote fix changed the space to \,
+
+3 Feb 2005
+-in the print_data.pl added undef(@ FM) files so that when a new header
+is read the old information is deleted
+-in the update, only the header of the first record gets read
+-in the cb2l1 now the enire record gets loged if there is an error
