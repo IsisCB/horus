@@ -35,7 +35,6 @@ sub moose {
 	require 'subs\errors.pl';
 	require 'subs\sorts.pl';
 	require 'subs\names.pl';
-	require 'subs\character_convert.pl';
 	require 'subs\pages.pl';
 	require 'subs\index.pl';
 	require 'subs\full_citation.pl';

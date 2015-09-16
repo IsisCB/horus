@@ -1,0 +1,27 @@
+Errors occured while processing your file. Read the help below. If still unable to fix the problem ask for assistance. Please provide the text of this entire log if asking for assistance.
+
+****START OF HELP
+[Error 185] Could not open C:\CB directory\Aux Files\import export files\oktocheckin.tab file for reading No such file or directory
+
+*No description availabe on this error.
+
+*No help availabe on this error
+
+___________
+****END OF HELP
+
+
+___________________
+Thu Sep 10 15:11:30 2015 running checkin mode by sr
+(	Xerxes	1507301		sr	checkin	one	No	Yes	1503051	0)
+Record numbers read: 
+
+MESSAGES:
+Thu Sep 10 15:11:29 2015
+Running checkin mode.
+Connected to isis.rccc.ou.edu
+Logged in to isis.rccc.ou.edu as isis
+1 ERROR(S) detected
+
+ERRORS:
+[Error 185] Could not open C:\CB directory\Aux Files\import export files\oktocheckin.tab file for reading No such file or directory
