@@ -1,10 +1,11 @@
 #this file contians various bits of needed to make latex files
 #probaly parts of it can be generated on the go
 
-$head_one_OLD=<<'EOF';
+$head_one=<<'EOF';
 \documentclass[10pt,twocolumn]{isiscb}
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
 \usepackage{fancyhdr}
 \usepackage{ogonek}
 \usepackage{amssymb}
@@ -13,9 +14,6 @@ $head_one_OLD=<<'EOF';
 \usepackage{url}
 \usepackage{pslatex}
 \usepackage{semtrans}
-\usepackage[T2A,OT1]{fontenc}   %for cyrillic
-\usepackage[ot2enc]{inputenc}   %for cyrillic
-
 \makeatletter
 %adds some flexibility to the right justrification
 \rightskip=0pt plus 1em
@@ -30,8 +28,8 @@ $head_one_OLD=<<'EOF';
 
 EOF
 ###########################################################
-$head_one=<<'EOF';
-\documentclass[12pt,onecolumn]{article}
+$head_one_new=<<'EOF';
+\documentclass[12pt,onecolumn]{isiscb}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fancyhdr}

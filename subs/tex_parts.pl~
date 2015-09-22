@@ -1,7 +1,7 @@
 #this file contians various bits of needed to make latex files
 #probaly parts of it can be generated on the go
 
-$head_one=<<'EOF';
+$head_one_OLD=<<'EOF';
 \documentclass[10pt,twocolumn]{isiscb}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -30,9 +30,44 @@ $head_one=<<'EOF';
 
 EOF
 ###########################################################
+$head_one=<<'EOF';
+\documentclass[12pt,onecolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{ogonek}
+\usepackage{ogonek}
+\usepackage{amssymb}
+\pagestyle{empty}
+\usepackage{pslatex}
+\usepackage{tipa}
+\usepackage{semtrans}
+\setlength{\voffset}{0in} \setlength{\hoffset}{0in}
+\setlength{\oddsidemargin}{0.3in} \setlength{\topmargin}{0in}
+\setlength{\textwidth}{5.7in} \setlength{\textheight}{8.6in}
+\setlength{\headsep}{0in} \linespread{1}
+
+\makeatletter
+
+\newenvironment{rlg}%
+{\begin{list}{}{%
+\setlength{\labelwidth}{1in}
+%\setlength{\leftmargin}{1in}%
+\setlength{\itemindent}{0in}}%
+\setlength{\itemsep}{-\parskip}}
+{\end{list}}
+
+\makeatother
+
+\begin{document}
+
+\noindent
+
+EOF
+###########################################################
 
 $head_rlg_proof=<<'EOF';
-\documentclass[10pt]{article}
+\documentclass[12pt,onecolumn]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
