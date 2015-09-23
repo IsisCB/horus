@@ -243,6 +243,7 @@ while($text=~/(<.*?>)/g){
         #the $1=~<com:.*?> is to match comments
     }elsif ($character_map{$1}){
         if($character_map{$1}->{tx}){       #replace if know what to replace with
+        	print "$1 -- $character_map{$1}->{tx}\n";
             $match2=$match=$1;
             $match2=~s/\^/\\^/;      #otherwise will not match
             $match2=~s/\?/\\?/;      #otherwise will not match

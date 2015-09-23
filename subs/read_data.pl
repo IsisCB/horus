@@ -117,7 +117,13 @@ sub read_header{
 my $nooutput=$_[1];
 
 #takes the first line and determines the field things
-@headers=split(/,/,$_[0]);
+#@headers=split(/,/,$_[0]);
+
+#since csv does not export with a header, use this as header (which makes the whole thing pointsless, but no
+#time right now for a proper fix. Sewpt 23, 2015
+my $setHeader='Record ID,record version,Title,Author,Temp ID,Record Type,Editor,Year of publication,Edition Details,Description,Subjects,CategoryNumbers,Language,Abstract,Source of Data,Created,Modified Time,Checked Out,ModifierName,RecordAction,RecordNature,FullyEntered,Proofed,SPW checked,Published Print,Published RLG,Published Email Alert,Bibliographers Notes,Temporary notes,Link to Record,Link Nature,x review,x chapter,checkbox,Record ID Book,Place Publisher,Physical Details,Series,ISBN,Record ID Chapter,Chapter Pages,Link Copy,Record ID Review,Journal Link Review,Journal Volume Review,Journal Pages Review,DOI Review,Record ID Journal,Journal Link,Journal Volume,Journal Pages,DOI,Title,Author,Editor,Year of publication,Extra1,Extra2,Extra3,Extra4,Extra5,Extra6,Extra7,Extra8,Extra9,Extra10,Extra11,Extra12';
+@headers=split(/,/,$setHeader);
+
 undef(@fo);
 undef(%foh);
 undef(%required_fields);
@@ -213,12 +219,114 @@ unless ($nooutput eq 'nooutput'){
 }
 
 #################################################
+sub read_header_old{
 
+#$_[0]=data;
+my $nooutput=$_[1];
+
+#takes the first line and determines the field things
+@headers=split(/,/,$_[0]);
+
+undef(@fo);
+undef(%foh);
+undef(%required_fields);
+undef($label);
+#new 3 feb 2005
+undef(@mainFM);
+undef(@articleFM);
+undef(@bookFM);
+undef(@chapterFM);
+undef(@reviewFM);
+
+
+        #DO NOT MODIFY THIS WITHOUT CHANGIN THE IMPORT ORDER IN FILEMAKER
+        $mainheader='Record ID,record version,Title,Author,Temp ID,Record Type,Editor,Year of publication,Edition Details,Description,Subjects,CategoryNumbers,Language,Abstract,Source of Data,Created,Modified Time,Checked Out,ModifierName,RecordAction,RecordNature,FullyEntered,Proofed,SPW checked,Published Print,Published RLG,Published Email Alert,Bibliographers Notes,Temporary notes,Link to Record,Link Nature,x review,x chapter,checkbox,Temp ID,Temp ID,Temp ID,Temp ID,Title,Author,Editor,Year of publication,Extra1,Extra2,Extra3,Extra4,Extra5,Extra6,Extra7,Extra8,Extra9,Extra10,Extra11,Extra12,';
+        $bookheader='Record ID Book,Place Publisher,Physical Details,Series,ISBN';
+        $chapterheader='Record ID Chapter,Chapter Pages,Link Copy';
+        $articleheader='Record ID Journal,Journal Link,Journal Volume,Journal Pages,DOI';
+        $reviewheader='Record ID Review,Journal Link Review,Journal Volume Review,Journal Pages Review,DOI Review';
+        $journalheader='Journal Id,record version,Main Title,Other titels,ISSN,Language,Frequency,Comment,Call number 1,Call number 2,Call number 3,Location,Print copy,In the guide,Current subscription,Home Page,TOC page,Full text access,Publisher,Editorial contact,Importance rank,Abbriviation,Last Checked,Type,Pagination,in the neu list,Last modified';
+        @hEader=(main, book, chapter, article, review);
+        foreach $he (@hEader){
+            $n6="$he"."header";
+            $n7="$he"."FM";
+            @fids=split(/,/, $$n6);
+            foreach $f (@fids){
+                push(@$n7, $all_fields{$f});
+            }
+         }       
+    
+
+foreach $header (@headers){
+    if ($all_fields{$header} ne ''){
+        #this chages the names of fields which appear alrad to linked whatever
+        #therefore for the export the original field must be exported for first (even if it is always empty)
+        #and then the linked field can be exported
+
+        if ($foh{$all_fields{$header}}){
+            $label='linked_'."$all_fields{$header}";
+        }else{
+            $label=$all_fields{$header};
+        }
+
+
+             push(@fo, $label);         #creaes an array with values as fields
+        $foh{$label}=$#fo;          #creas a hash with keys as names and values as values for the array
+        $required_fields{$label}='here';
+
+    }else{
+        if ($scarabaeusreaddata eq 'loose'){    #so that backup will not hang up
+            log_p("The field: $header is not recognized; following records will be read incorectly");
+        }else{
+             error_b("[Error 133] The field '$header' is not recognized. Check the data or uppdated read_data.pl.");
+        }
+    }
+}
+
+
+#this file names are also defied in the the made_dummy_mer sub ubu print_data.pl
+$outfile=$out_File;
+$outfileart=$outart_File;
+$outfilechap=$outchap_File;
+$outfilebook=$outbook_File;
+$outfilerev=$outrev_File;           
+
+unless ($nooutput eq 'nooutput'){
+    open OUT, ">:utf8", $outfile || error_b("[Error 135] Cannot open $outfile $! in readheader");
+    print OUT "$mainheader,Temp ID\n";
+    close OUT;
+
+    if ($articleheader ne '') {
+        open OUT, ">:utf8", $outfileart  || error_b("[Error 136] Cannot open $outfileart $! in readheader");
+        print OUT "$articleheader,Temp ID\n";
+        close OUT;
+    }
+    if ($reviewheader ne '') {
+        open OUT, ">:utf8", $outfilerev  || error_b("[Error 137] Cannot open $outfilechap $! in readheader");
+        print OUT "$reviewheader,Temp ID\n";
+        close OUT;
+    }
+    if ($bookheader ne '') {
+        open OUT, ">:utf8", $outfilebook || error_b("[Error 138] Cannot open $outfilebook $! in readheader");
+        print OUT "$bookheader,Temp ID\n";
+        close OUT;
+    }
+    if ($chapterheader ne '') {
+        open OUT, ">:utf8", $outfilechap || error_b("[Error 139] Cannot open $outfilerev $! in readheader");
+        print OUT "$chapterheader,Temp ID\n";
+        close OUT;
+    }
+}
+
+
+}
+
+#################################################
 sub read_data{
-	use Encode;
-	use utf8;
+	#use Encode;
+	#use utf8;
 	use Tie::IxHash;
-	binmode STDOUT, ":utf8";
+	#binmode STDOUT, ":utf8";
 
 #$_[0]=data
 my $readonly=$_[1];

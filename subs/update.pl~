@@ -33,7 +33,7 @@ foreach $infile (@infiles){
                 
               }else{        #if not a journal record
                 $jrec=0;    
-                  read_header_old($_);              #for the first record splits fileds  
+                  read_header($_);              #for the first record splits fileds  
               }  
           }else{        #for the body of each file
             if($jrec > 0){

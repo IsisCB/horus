@@ -80,19 +80,21 @@ sub moose {
 	my $howmany=-1;
 	$bksp=chr(8);
 	print "Reading       ";
+	#moved this here changing into csv input file
+	read_header();
 	while (<IN>){
 		
 		chomp;
-		if($howmany==-1){
-			read_header($_);              #for the first record splits fileds
-		}else{
+		#if($howmany==-1){
+		#	read_header($_);              #for the first record splits fileds
+		#}else{
 			my $record = read_data($_);                   #this will pull out all important information, sort etc
 			
 			push (@tosort1, $record);
 			#moved this down, becase rev sort need data form book which may not have been read yet
 			#sort_records( \%{$data{$record}} , $options[$choice]);     #creat a hash with record numbers which can be sorted approprietaly
 			
-		}
+		#}
 		$howmany++;
 		if($howmany=~/000$/){
 			print "$bksp$bksp$bksp$bksp$bksp$bksp";
