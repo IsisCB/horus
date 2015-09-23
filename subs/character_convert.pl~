@@ -1,4 +1,4 @@
-#sub character_convert
+#sub character_convert{
 #subrutine to convert from any one of the four used encodings to any other
 #the four are
 #   Latin-1  (L1)
@@ -227,7 +227,7 @@ while($text=~/(<q>|<\/q>)/g){
         if ($ct==0){
             $text=~s/<\/q>/''/;
         }else{
-            $text=~s/<\/q>/'/; #'
+            $text=~s/<\/q>/'/;
         }
     }
         
@@ -303,7 +303,6 @@ for ($k=1; $k<256; $k++){
 
 
 }
-
 ####################################
 
 sub cb2sc {

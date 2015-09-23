@@ -23,6 +23,7 @@ require 'subs\sqeez.pl';
 require 'subs\print_data.pl';
 require 'subs\names.pl';
 require 'subs\closing.pl';
+require 'subs\character_convert.pl';
 
 $ltme=localtime;
 log_q("$ltme");

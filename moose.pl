@@ -19,7 +19,7 @@ sub moose {
 	require Text::CSV;                  #spliting csv
 	use File::Copy;
 	require Net::FTP;
-	require Tie::IxHash;
+	use Tie::IxHash;
 	use Roman;
 	#use diagnostics;
 	

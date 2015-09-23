@@ -217,7 +217,6 @@ unless ($nooutput eq 'nooutput'){
 sub read_data{
 	use Encode;
 	use utf8;
-	use Tie::IxHash;
 	binmode STDOUT, ":utf8";
 
 #$_[0]=data
@@ -297,8 +296,7 @@ pull_names($that, edition_details);
 
 	my %names='';
 	my $responsibility='';
-
-	tie(%names,  "Tie::IxHash");
+	tie %names,  "Tie::IxHash";
 	%names=make_name($that->{record_number},author,li);
         foreach $name (keys %names){
         	 $responsibility="$responsibility"."$names{$name}; ";
