@@ -1,8 +1,8 @@
 #this file contians various bits of needed to make latex files
 #probaly parts of it can be generated on the go
 
-$head_one_old=<<'EOF';
-\documentclass[12pt]{isiscb}
+$head_one=<<'EOF';
+\documentclass[10pt,twocolumn]{isiscb}
 \usepackage{fancyhdr}
 \usepackage{ogonek}
 \usepackage{amssymb}
@@ -11,6 +11,8 @@ $head_one_old=<<'EOF';
 \usepackage{url}
 \usepackage{pslatex}
 \usepackage{semtrans}
+\usepackage[T2A,OT1]{fontenc}   %for cyrillic
+\usepackage[ot2enc]{inputenc}   %for cyrillic
 
 \makeatletter
 %adds some flexibility to the right justrification
@@ -26,6 +28,7 @@ $head_one_old=<<'EOF';
 
 EOF
 ###########################################################
+
 $head_rlg_proof=<<'EOF';
 \documentclass[10pt]{article}
 \usepackage{ogonek}
@@ -58,8 +61,8 @@ $head_rlg_proof=<<'EOF';
 EOF
 ###########################################################
 
-$head_final=<< 'EOF';
-\documentclass[isiscbpaper,12pt]{isiscb}
+$head_final=<<'EOF';
+\documentclass[isiscbpaper,10pt,twocolumn]{isiscb}
 \title{ISIS Current Bibliography 2006}
 \usepackage{fancyhdr}
 \usepackage{multicol}
@@ -72,17 +75,25 @@ $head_final=<< 'EOF';
 \usepackage[T2A,OT1]{fontenc}   %for cyrillic
 \usepackage[ot2enc]{inputenc}   %for cyrillic
 \usepackage[frenchb,german,italian,spanish,swedish,russian,polish,latin,czech,croatian,portuguese,english]{babel}
+%\linespread{0.9}  % i think those two lines do the same thing
+\renewcommand{\baselinestretch}{0.9}
+%supposely prevents widows and orphans, lets give it a try
+\widowpenalty=1000
+\clubpenalty=1000
 
 
 \makeatletter
+
+%\newcommand{\nohyphens}{\hyphenpenalty=10000\exhyphenpenalty=10000\relax}
+
 
 \renewcommand{\paragraph}{\@startsection
 {paragraph}%
 {4}%
 {0pt}%
-{\baselineskip}%
+{-0.5\baselineskip}%
 {-0pt}%   
-{\normalfont\large\textbf}}
+{\normalfont\small\textbf}}
 
 %\renewcommand{\section}{\@startsection
 %{section}%
@@ -123,7 +134,7 @@ $head_final=<< 'EOF';
 \setcounter{tocdepth}{2}  %show down to section (no subsection)
 
 \begin{document}
-
+\twocolumn
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%
@@ -165,7 +176,7 @@ $jlisttail=<< 'EOF';
 EOF
 
 $mainmatter=<< 'EOF';
-
+\twocolumn
 %%%%%%%%
 \mainmatter
 %%%%%%%%%%

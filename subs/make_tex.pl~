@@ -108,12 +108,12 @@ unless($phyical_details eq ''){
 $pages=pages('', $pages);
 
 if($options[$choice] eq 'proof' || $options[$choice] eq 'one' || $options[$choice] eq 'regular'){ 
-    ac("\n\n".'\noindent\textbf{'."$itemnumber{$record_number} ($record_number)".'.}\hspace{0.5em}');
+    ac("\n\n".'\noindent\begin{footnotesize}\textbf{'."$itemnumber{$record_number} ($record_number)".'.}\hspace{0.5em}');
 }elsif($options[$choice] eq 'htmldb'){  
     ac("\n");
 }else{      #final
    # ac('\begin{raggedright}');
-    ac("\n\n".'%'."$record_number\n".'\noindent\textbf{'."$itemnumber{$record_number}".'.}\hspace{0.5em}');
+    ac("\n\n".'%'."$record_number\n".'\noindent\begin{footnotesize}\textbf{'."$itemnumber{$record_number}".'.}\hspace{0.5em}');
 }
 
 
@@ -748,7 +748,7 @@ if ($revitemnumber{$record_number} ne '' || $#lkeder>-1){
 }
 
 ##if option for printing subjects turned on, print subject
-#if ($optionsFMO eq 'sub'){
+if ($optionsFMO eq 'sub'){
 unless($desmark > 0){
         if($sfactorFMO > 0){
             ac('\begin{isisdescription}\begin{scriptsize}');
@@ -757,11 +757,10 @@ unless($desmark > 0){
         }
         $desmark++;
     }
-    $subjects=~s/\[.*?\]//g;
-    
-    ac("\n\n\n".'\texttt{'."$subjects"."}"."($record_number)");
+    $subjects=~s/\/\/\s*$//;
+    ac('\texttt{--'."$subjects"."}");
 
-#}
+}
 ###############
 if($desmark > 0){
     if ($sfactorFMO > 0 ){
@@ -782,13 +781,13 @@ if($options[$choice] eq 'proof' || $options[$choice] eq 'one' || $options[$choic
   #ac("\n\n".'Lanugage: \textbf{'."$language".'}');
   #ac("\n\n".'Source: \textsc{'."$source".'}');
 }
-ac("\n\n".'\vspace{4ex}');   #the two \n\n are necessary to have the smaller lineseperation
+ac("\n\n".'\vspace{2ex}');   #the two \n\n are necessary to have the smaller lineseperation
 ###################################################
 ###################################################
 ##### now print the record
     #print OUT '\begin{footnotesize}';
     $cite=~s/'''/'\\hspace{1pt}''/g;
-    print OUT "$cite ";
+    print OUT "$cite \\end{footnotesize}";
     #print OUT '\end{footnotesize}';
     close OUT;
     open (OUT, ">> $ids_File") || die ("Cound not opne $ids_File $!");
@@ -828,9 +827,9 @@ my $lett2ed=$record->{lett2ed};
 
 #start printing
 if($options[$choice] eq 'proof' || $options[$choice] eq 'one' || $options[$choice] eq 'regular'){ 
-    ac("\n\n".'\noindent\textbf{R'."$record_number".'.}\hspace{0.5em}');
+    ac("\n\n".'\noindent\begin{footnotesize}\textbf{R'."$record_number".'.}\hspace{0.5em}');
 }else{  
-    ac("\n\n".'\noindent\textbf{'."$revitemnumber{$record_number}".'.}\hspace{0.5em}');
+    ac("\n\n".'\noindent\begin{footnotesize}\textbf{'."$revitemnumber{$record_number}".'.}\hspace{0.5em}');
 }
 
 
@@ -1063,8 +1062,8 @@ if ($firstrev==0){
         ac('\end{isisdescription}'."\n\n");
     }
 }
-print OUT "$cite ";
-print OUT "\n\n".'\vspace{4ex}';   #the two \n\n are necessary to have the smaller lineseperation
+print OUT "$cite \\end{footnotesize}";
+print OUT "\n\n".'\vspace{0.75ex}';   #the two \n\n are necessary to have the smaller lineseperation
 
 $cite='';
 

@@ -109,7 +109,7 @@ if ($fmw eq 'one' || $fmw eq 'cleanup'){
     system("latex  --quiet --output-directory=\"$pdf_Dir\" \"$tex_File\"");
     if($pdfFMO=~/yes/i){ 
         log_q("pdfFMP set to '$pdfFMO'. Runing PDFLaTeX, reading $tex_File writing to $pdf_Dir"); 
-        system("PDFLaTeX  --output-directory=\"$pdf_Dir\" \"$tex_File\"");
+        system("PDFLaTeX  --quiet --output-directory=\"$pdf_Dir\" \"$tex_File\"");
      } 
     my $filename=$fm_com{'filename'};
     unless ($testMODE==1){

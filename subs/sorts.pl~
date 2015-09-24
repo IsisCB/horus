@@ -59,10 +59,10 @@ if ($output eq 'rlg' && $record->{'record_number'}=~/er/){
     $stop=1;
 };
 #but make sure that they are checked and that
-#if (($output eq 'final' || $output eq 'rlg' || $output eq 'htmldb') && $record->{date_sub_checked} eq ''){
-#    $stop=1;
-#    $skipr{'Not spw checked'}="$skipr{'Not spw checked'}".","."$record->{record_number}";
-#};
+if (($output eq 'final' || $output eq 'rlg' || $output eq 'htmldb') && $record->{date_sub_checked} eq ''){
+    $stop=1;
+    $skipr{'Not spw checked'}="$skipr{'Not spw checked'}".","."$record->{record_number}";
+};
 if (($output eq 'final' || $output eq 'rlg' || $output eq 'htmldb') && $record->{date_proofed} eq ''){
     $stop=1;
     $skipr{'Not proofed'}="$skipr{'Not proofed'}".","."$record->{record_number}";
