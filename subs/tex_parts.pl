@@ -25,6 +25,32 @@ $head_one_old=<<'EOF';
 \noindent
 
 EOF
+
+
+$head_one=<<'EOF';
+\documentclass[10pt]{isiscb}
+\usepackage{fancyhdr}
+\usepackage{ogonek}
+\usepackage{amssymb}
+\usepackage{tipa}
+\usepackage{url}
+\usepackage{pslatex}
+\usepackage{semtrans}
+
+\makeatletter
+%adds some flexibility to the right justrification
+\rightskip=0pt plus 1em
+\@rightskip=\rightskip % for LaTeX
+\makeatother
+\newcommand{\smark}[1]{\markboth{#1}{}}
+\usepackage[frenchb,german,italian,spanish,swedish,russian,polish,latin,czech,croatian,portuguese,english]{babel}
+\pagestyle{empty}
+\begin{document}
+
+\noindent
+
+EOF
+
 ###########################################################
 $head_rlg_proof=<<'EOF';
 \documentclass[10pt]{article}
@@ -59,7 +85,7 @@ EOF
 ###########################################################
 
 $head_final=<< 'EOF';
-\documentclass[isiscbpaper,12pt]{isiscb}
+\documentclass[12pt]{isiscb}
 \title{ISIS Current Bibliography 2006}
 \usepackage{fancyhdr}
 \usepackage{multicol}
@@ -113,7 +139,7 @@ $head_final=<< 'EOF';
 \renewcommand{\subsectionmark}[1]{\markright{}}
 %\addtolength{\baselineskip}{-5pt}
 \setlength{\footskip}{0pt} \setlength{\oddsidemargin}{0pt}
-\addtolength{\textheight}{9\baselineskip}
+%\addtolength{\textheight}{9\baselineskip}
 \addtolength{\textwidth}{6mm}
 \newcommand{\smark}[1]{\markboth{#1}{}}
 
