@@ -172,36 +172,45 @@ ac("$pages.");
 #book
 #############################################################
 if ($record->{doc_type} eq 'Book'){
+	
+	
+	#Author. "Title." Dissertation at School. (Date)
+     #Advisors. Cited in ....
 
 res("$record_number");
 
 $title=punc("$title", '.');
 $title=language_assign($title,$language);
-ac('\textit{'."$title");
-ac("} ");
-unless ($res2 eq ''){ac("$res2 ")};
-unless ($edition_details eq '' ) {
-    $edition_details=punc("$edition_details", '.');
-    ac("$edition_details ");
-}
-unless ($series eq '') {
-    $series=punc("$series", '.');
-    ac("$series ");
-}
-unless ($phyical_details eq '' ) {
-    ac('('."$phyical_details".') ')};
-ac("$place_publisher");
-unless ($year eq '' ) {ac(", $year")};
-ac('.');
-unless ($isbn eq '') {
-    if ($options[$choice] eq 'htmldb'){
-        ac (" ISBN: $isbn");
-    }else{
-        ac(" \\textsc{isbn}: $isbn.");
-    }
-}
-}
 
+	ac('``'."$title".'\'\'');
+	ac('Dissertation at '."$place_publisher".'.');
+	unless ($year eq '' ) {ac(" ($year)")};
+	$description="$edition_details. $description";
+}else{
+	ac('\textit{'."$title");
+	ac("} ");
+	unless ($res2 eq ''){ac("$res2 ")};
+	unless ($edition_details eq '' ) {
+		$edition_details=punc("$edition_details", '.');
+		ac("$edition_details ");
+	}
+	unless ($series eq '') {
+		$series=punc("$series", '.');
+		ac("$series ");
+	}
+	unless ($phyical_details eq '' ) {
+    	ac('('."$phyical_details".') ')};
+    ac("$place_publisher");
+    unless ($year eq '' ) {ac(", $year")};
+    ac('.');
+    unless ($isbn eq '') {
+    	if ($options[$choice] eq 'htmldb'){
+    		ac (" ISBN: $isbn");
+    	}else{
+    		ac(" \\textsc{isbn}: $isbn.");
+    	}
+	}
+}
 #chapter
 #############################################################
 if ($record->{doc_type} eq 'Chapter'){
