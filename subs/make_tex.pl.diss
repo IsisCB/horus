@@ -182,11 +182,10 @@ res("$record_number");
 $title=punc("$title", '.');
 $title=language_assign($title,$language);
 
-if($series eq 'Dissertation'){
 	ac('``'."$title".'\'\'');
-	ac(' Dissertation at '."$place_publisher".'.');
+	ac('Dissertation at '."$place_publisher".'.');
 	unless ($year eq '' ) {ac(" ($year)")};
-	$description="$edition_details. $description";
+	$description="$edition_detials. $description";
 }else{
 	ac('\textit{'."$title");
 	ac("} ");
@@ -211,7 +210,6 @@ if($series eq 'Dissertation'){
     		ac(" \\textsc{isbn}: $isbn.");
     	}
 	}
-}
 }
 #chapter
 #############################################################

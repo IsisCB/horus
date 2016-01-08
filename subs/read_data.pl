@@ -55,7 +55,7 @@
     'checkbox'=>'junk',
     
     #added 2013 May 1. 
-    'Extra1'=>'extra1',
+    'UniversalLink'=>'extra1',
     'Extra2'=>'extra2',
     'Extra3'=>'extra3',
     'Extra4'=>'extra4',
